@@ -57,11 +57,15 @@ public class ListaReproducaoServices {
             vo.add(linkTo(methodOn(ListaReproducaoController.class).findById(vo.getKey())).withSelfRel());
             return ResponseEntity.ok(vo);
         }catch (Exception e){
+            System.out.println(e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }
 
     private List<Musica> saveMusicas(List<Musica> musicas) {
+        if(musicas == null || musicas.isEmpty()){
+            return musicas;
+        }
         List<Musica> musicasSalvas = new ArrayList<>();
         for(Musica musica : musicas) {
             var musicaSalva = musicaRepository.save(musica);
