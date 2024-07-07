@@ -78,4 +78,15 @@ public class ListaReproducaoServices {
             return null;
         }
     }
+
+    public ResponseEntity<Void> deleteListaReproducao(String listName) {
+        ListaReproducao listaReproducao = null;
+        listaReproducao = repository.findByNome(listName);
+        if (listaReproducao != null) {
+            repository.delete(listaReproducao);
+            return ResponseEntity.noContent().build();
+        }else{
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

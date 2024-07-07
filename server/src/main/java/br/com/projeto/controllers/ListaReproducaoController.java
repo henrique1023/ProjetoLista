@@ -33,6 +33,11 @@ public class ListaReproducaoController {
         return services.saveListaReproducao(listaReproducao);
     }
 
+    @DeleteMapping(path = "/{listName}")
+    public ResponseEntity<Void> deleteListaReproducao(@PathVariable String listName) {
+        return services.deleteListaReproducao(listName);
+    }
+
     public ListaReproducaoVO findById(Long key) {
         return services.findById(key);
     }
