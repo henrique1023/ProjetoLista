@@ -23,9 +23,9 @@ export default function Listas(){
         }
     }
 
-    async function editLista(id){
+    async function editLista(nomeLista){
         try {
-            navigate(`/list/new/${id}`)
+            navigate(`/list/new/${nomeLista}`)
         } catch (error) {
             alert('Erro ao editar lista!')
         }
@@ -57,6 +57,8 @@ export default function Listas(){
                 Authorization: `Bearer ${accessToken}`
             }
             })
+
+            console.log(response.data)
 
             setListas([...listas, ...response.data])
         } catch (error) {
@@ -93,8 +95,30 @@ export default function Listas(){
                         <p>{lista.nome}</p>
                         <strong>Descrição:</strong>
                         <p>{lista.descricao}</p>
+                        <strong>Quantidade de músicas:</strong>
+                        {lista.musicas !== undefined ? (
+                            <div>
+                                <strong>Músicas:</strong>
+                                <ul>
+                                    {lista.musicas.map(musica => (
+                                        <li key={musica.id}>
+                                            <strong>Artista:</strong>
+                                            <p>{musica.artista}</p>
+                                            <strong>Ano:</strong>
+                                            <p>{musica.ano}</p>
+                                            <strong>Álbum:</strong>
+                                            <p>{musica.album}</p>
+                                            <strong>Genero:</strong>
+                                            <p>{musica.genero}</p>
+                                            <strong>Titulo:</strong>
+                                            <p>{musica.titulo}</p>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        ) : ''}
 
-                        <button onClick={() => editLista(lista.id)} ype="button">
+                        <button onClick={() => editLista(lista.nome)} ype="button">
                             <FiEdit size={20} color="#251fc5"/>
                         </button>
                         <button onClick={() => deleteLista(lista.nome)} type="button">

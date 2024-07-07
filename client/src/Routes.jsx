@@ -8,7 +8,7 @@ export default props => (
     <Routes>
         <Route exact path='/' element={<Login/>}/>
         <Route path='/listas' element={<Listas/>}/>
-        <Route path='/list/new/:listId' element={<NewLista/>}/>
+        <Route path='/list/new/:listName' element={<NewLista/>}/>
     </Routes>
 )
    

@@ -9,42 +9,36 @@ import api from "../../services/api";
 export default function NewLista(){
 
     const [id, setId] = useState(null)
-    const [author, setAuthor] = useState('')
-    const [launchDate, setLaunchDate] = useState('')
-    const [price, setPrice] = useState('')
-    const [title, setTitle] = useState('')
+    const [nome, setNome] = useState('')
+    const [descricao, setDescricao] = useState('')
 
     const navigate = useNavigate();
 
-    const {bookId} = useParams();
+    const {listName} = useParams();
 
     const accessToken = localStorage.getItem('accessToken')
     const refleshToken = localStorage.getItem('refleshToken')
 
     useEffect(() => {
-        if (bookId !== '0') {
+        if (listName !== '0') {
            loadBook()
         } 
         
-    }, [bookId])
+    }, [listName])
 
     async function loadBook(){
         try {
-            const resp = await api.get(`api/book/v1/${bookId}`, { 
+            console.log(listName)
+            const resp = await api.get(`api/lists/v1/${listName}`, { 
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }})
-            
-                let adjustedDate = resp.data.launchDate.split('T',10)[0];
 
                 setId(resp.data.id)
-                setAuthor(resp.data.author)
-                setTitle(resp.data.title)
-                setLaunchDate(adjustedDate)
-                setPrice(resp.data.price)
+                setNome(resp.data.nome)
+                setDescricao(resp.data.descricao)
         } catch (error) {
-            alert('Error load book')
-            navigate('/')
+            alert('Error load book' + error)
         }
     }
 
@@ -52,29 +46,27 @@ export default function NewLista(){
         e.preventDefault();
 
         const data = {
-            title,
-            author,
-            launchDate,
-            price,
+            nome,
+            descricao,
         }
 
         try {
-            if(bookId === '0'){
-                 await api.post('api/book/v1', data, { 
+            if(listName === '0'){
+                 await api.post('api/lists/v1', data, { 
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
                 })
             }else {
                 data.id = id
-                await api.post('api/book/v1', data, { 
+                await api.post('api/lists/v1', data, { 
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                 }
                 })
             }
            
-            navigate('/books')
+            navigate('/listas')
         } catch (error) {
             alert('Error while recording!')
         }
@@ -85,24 +77,20 @@ export default function NewLista(){
             <div className="content">
                 <section className="form">
                     <img src={logoImage} alt="Erudio" />
-                    <h1>{bookId === '0' ? 'Add' : 'Edit'} new book</h1>
-                    <p>Enter the book information and click on '{bookId === '0' ? 'Add' : 'Edit'}'</p>
-                    <Link className="back-link" to={"/books"}>
+                    <h1>{listName === '0' ? 'Add' : 'Edit'} new List</h1>
+                    <p>Enter the list information and click on '{listName === '0' ? 'Add' : 'Edit'}'</p>
+                    <Link className="back-link" to={"/listas"}>
                         <FiArrowLeft size={16} color="#251fc5"/>
                         Home
                     </Link>
                 </section>
                 <form onSubmit={saveOrUpdate}>
-                    <input type="text" placeholder="Title" 
-                    value={title} onChange={e => setTitle(e.target.value)}/>
-                    <input type="text" placeholder="Author" 
-                    value={author} onChange={e => setAuthor(e.target.value)}/>
-                    <input type="date"
-                    value={launchDate} onChange={e => setLaunchDate(e.target.value)} />
-                    <input type="text" placeholder="price"
-                    value={price} onChange={e => setPrice(e.target.value)} />
+                    <input type="text" placeholder="Nome" 
+                    value={nome} onChange={e => setNome(e.target.value)}/>
+                    <input type="text" placeholder="Descrição"
+                    value={descricao} onChange={e => setDescricao(e.target.value)} />
 
-                    <button className="button" type="submit">{bookId === '0' ? 'Add' : 'Edit'}</button>
+                    <button className="button" type="submit">{listName === '0' ? 'Add' : 'Edit'}</button>
                 </form>
             </div>
         </div>
