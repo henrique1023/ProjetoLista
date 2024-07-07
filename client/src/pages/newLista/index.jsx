@@ -6,7 +6,7 @@ import './styles.css';
 import logoImage from '../../assets/logo.svg'
 import api from "../../services/api";
 
-export default function NewBook(){
+export default function NewLista(){
 
     const [id, setId] = useState(null)
     const [author, setAuthor] = useState('')

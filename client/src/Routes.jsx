@@ -1,14 +1,14 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/login/Index";
-import Books from "./pages/books/Index";
-import NewBook from "./pages/newBook";
+import Listas from "./pages/listas/Index";
+import NewLista from "./pages/newLista";
 
 export default props => (
     <Routes>
         <Route exact path='/' element={<Login/>}/>
-        <Route path='/books' element={<Books/>}/>
-        <Route path='/book/new/:bookId' element={<NewBook/>}/>
+        <Route path='/listas' element={<Listas/>}/>
+        <Route path='/list/new/:listId' element={<NewLista/>}/>
     </Routes>
 )
    

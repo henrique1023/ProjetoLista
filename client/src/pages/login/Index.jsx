@@ -30,7 +30,7 @@ export default function Login () {
             localStorage.setItem('accessToken', response.data.accessToken)
             localStorage.setItem('refleshToken', response.data.refleshToken)
 
-            navigate('/books');
+            navigate('/listas');
         } catch (error) {
             alert("Login falhou, tente novamente!" + error)
         }
@@ -39,7 +39,7 @@ export default function Login () {
     return (
         <div className="login-container">
             <section className="form">
-                <img src={logoImage} alt="Erudio" />
+                <img src={logoImage} alt="teste" />
                 <form onSubmit={login}>
                     <h1>Access your account</h1>
                     <input  type="text" placeholder="Username" 

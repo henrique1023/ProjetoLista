@@ -6,8 +6,8 @@ import './Styles.css'
 import logoImage from '../../assets/logo.svg'
 import api from "../../services/api";
 
-export default function Books(){
-    const [books, setBooks] = useState([])
+export default function Listas(){
+    const [listas, setListas] = useState([])
     const [page, setPage] = useState(1)
 
     const navigate = useNavigate();
@@ -23,24 +23,24 @@ export default function Books(){
         }
     }
 
-    async function editBook(id){
+    async function editLista(id){
         try {
-            navigate(`/book/new/${id}`)
+            navigate(`/list/new/${id}`)
         } catch (error) {
-            alert('Erro ao editar livro!')
+            alert('Erro ao editar lista!')
         }
         
     }
 
-    async function deleteBook(id){
+    async function deleteLista(nomeLista){
         try {
-            await api.delete(`api/book/v1/${id}`, { headers: {
+            await api.delete(`api/lists/v1/${nomeLista}`, { headers: {
                 Authorization: `Bearer ${accessToken}`
             }})
 
-            setBooks(books.filter(book => book.id !== id))
+            setListas(listas.filter(list => list.nome !== nomeLista))
         } catch (error) {
-            alert('Erro ao deletar livro!')
+            alert('Erro ao deletar lista!')
         }
        
     }
@@ -50,21 +50,15 @@ export default function Books(){
         navigate('/')
     }
 
-    async function fetchMoreBooks(){
+    async function fetchMoreListas(){
         try {
-            const response = await api.get('api/book/v1', { 
+            const response = await api.get('api/lists/v1', { 
             headers: {
                 Authorization: `Bearer ${accessToken}`
-            },
-            params: {
-                page: page,
-                size: 4,
-                direction: 'asc'
             }
             })
 
-            setBooks([...books, ...response.data._embedded.bookVOList])
-            setPage(page + 1)
+            setListas([...listas, ...response.data])
         } catch (error) {
             
         }
@@ -76,7 +70,7 @@ export default function Books(){
         if(verifyToken()){
             navigate('/')
         }else{
-            fetchMoreBooks()
+            fetchMoreListas()
         }
         
     }, []); 
@@ -84,30 +78,26 @@ export default function Books(){
     return (
        <div className="book-container">
             <header>
-                <img src={logoImage} alt="Erudio" />
+                <img src={logoImage} alt="Logo" />
                 <span>Welcome, <strong>{username.toUpperCase}</strong>!</span>
-                <Link className="button" to="/book/new/0">Add new book</Link>
+                <Link className="button" to="/list/new/0">Add new List</Link>
                 <button  onClick={() => logout()}  type="button">
                     <FiPower size={18} color="#251fc5"/>
                 </button>
             </header>
-            <h1>Registered Books</h1>
+            <h1>Registered Listas</h1>
             <ul>
-                {books.map(book => (
-                    <li key={book.id}>
-                        <strong>Title:</strong>
-                        <p>{book.title}</p>
-                        <strong>Author:</strong>
-                        <p>{book.author}</p>
-                        <strong>Price:</strong>
-                        <p>{Intl.NumberFormat('pt-BR', {style:'currency', currency:'BRL'}).format(book.price)}</p>
-                        <strong>Release Data:</strong>
-                        <p>{Intl.DateTimeFormat('pt-BR').format(new Date(book.launchDate))}</p>
+                {listas.map(lista => (
+                    <li key={lista.id}>
+                        <strong>Nome:</strong>
+                        <p>{lista.nome}</p>
+                        <strong>Descrição:</strong>
+                        <p>{lista.descricao}</p>
 
-                        <button onClick={() => editBook(book.id)} ype="button">
+                        <button onClick={() => editLista(lista.id)} ype="button">
                             <FiEdit size={20} color="#251fc5"/>
                         </button>
-                        <button onClick={() => deleteBook(book.id)} type="button">
+                        <button onClick={() => deleteLista(lista.nome)} type="button">
                             <FiTrash2 size={20} color="#251fc5"/>
                         </button>
                     </li>
@@ -115,7 +105,6 @@ export default function Books(){
                 
             </ul>
 
-            <button className="button" onClick={() => fetchMoreBooks()}>Carregar mais</button>
        </div>
     )
 }
