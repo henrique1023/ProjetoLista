@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ListaReproducaoRepository extends JpaRepository<ListaReproducao, Long> {
+
+   ListaReproducao findByNome(String listName);
 }
