@@ -30,8 +30,6 @@ public class UserServices implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         logger.info("Finding one User by name!");
-        var users = repository.findAll();
-        System.out.println(users);
         var user = repository.findByUsername(username);
         if (user != null){
             return user;
