@@ -1,1 +1,20 @@
-<p>login works!</p>
+<app-default-login-layout
+    title="Access your account"
+    primaryButtonText="Login"
+    secondaryButtonText="Sign up"
+    (submit)="submit()"
+>
+    <form [formGroup]="loginForm">
+        <app-primary-input
+        formControlName="email"
+        type="email"
+        placeholder="Username">
+        </app-primary-input>
+
+        <app-primary-input
+        formControlName="password"
+        type="password"
+        placeholder="Password">
+        </app-primary-input>
+    </form>
+</app-default-login-layout>

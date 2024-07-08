@@ -1,1 +1,11 @@
-<p>default-login-layout works!</p>
+<main>
+    <section class="form-section"> 
+        <img src="/assets/svg/logo.svg" alt="logo">
+        <h2>{{title}}</h2>
+        <ng-content></ng-content>
+        <button class="btn-primary" (click)="submit()">{{primaryButtonText}}</button>
+    </section>
+    <section class="main-section">
+        <img src="/assets/png/padlock.png" alt="lock">
+    </section>
+</main>
